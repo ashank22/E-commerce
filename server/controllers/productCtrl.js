@@ -1,22 +1,64 @@
 const { ObjectId } = require('mongodb');
 const connectMongo=require('../db/dbConnection')
 class APIfeatures{
-    constructor(query,queryString){
-        this.query=query;
-        this.queryString = queryString
+    constructor(collection,queryString){
+        this.collection=collection;
+        this.query = {};
+        this.queryString= queryString;
+        this.pagi=null;
     }
 
-    filtering(){
+     filtering(){
         const queryObj= {...this.queryString}
-        console.log(queryObj)
         const excludedFields = ['page','sort','limit']
         excludedFields.forEach(el=> delete(queryObj[el]))
+
+        let queryStr=JSON.stringify(queryObj);
+        queryStr= queryStr.replace(/\b(gte|gt|lt|lte|regex)\b/g,match=>'$'+match)
+
+    
+        this.query=(JSON.parse(queryStr));
+    
+        return this;
+
     }
     sorting(){
-
+        if (this.queryString.sort) {
+            const sortBy = this.queryString.sort.split(',').join(' '); // e.g., "price,-createdAt"
+            this.sort = sortBy; // Store sort criteria for MongoDB
+        } else {
+            this.sort = 'createdAt'; // Default sort
+        }
+        return this;
     }
     pagination(){
+        const page = this.queryString.page * 1 || 1;
 
+        const limit =  this.queryString.limit * 1 || 9;
+
+        const skip = (page-1) * limit;
+
+        this.pagi={skip,limit};
+
+        return this;
+    }
+    async execute(){
+        let result=this.collection.find(this.query);
+      
+        if (this.sort) {
+            const sortCriteria = {};
+            this.sort.split(' ').forEach(field => {
+                const order = field.startsWith('-') ? -1 : 1;
+                sortCriteria[field.replace('-', '')] = order;
+            });
+            result = result.sort(sortCriteria);
+        }
+
+        if (this.pagi) {
+            result = result.skip(this.pagi.skip).limit(this.pagi.limit);
+        }
+
+        return result.toArray();
     }
 }
 const productCtrl={
@@ -24,11 +66,12 @@ const productCtrl={
         try {
             const db= await connectMongo();
             const coll= await db.collection("products");
-            const features= new APIfeatures(coll.find(), req.query).filtering();
-            const products = await features.query;
+            const features= new APIfeatures(coll, req.query).filtering().pagination();  //becaseu there are some query parts which are not meant to be send we need to remove them
+            const products = await features.execute();
             res.json(products);
+
         } catch (error) {
-            res.json({msg:"cannot get products"})
+            res.json({'error':404,msg:error})
         }
     },
     createProducts : async(req,res)=>{
