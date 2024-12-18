@@ -27,9 +27,12 @@ const userCtrl = {
             // Set refresh token as a cookie
             res.cookie('refreshtoken', refreshtoken, {
                 httpOnly: true,
-                path: '/refreshtoken',
+                secure: process.env.NODE_ENV === 'production', // Enable HTTPS-only in production
+                sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
+                path: '/',
             });
-
+            
+            console.log(req);
             return res.status(200).json({ accesstoken, message: 'Login successful' });
         } catch (error) {
             console.error('Error in login:', error);
@@ -58,12 +61,14 @@ const userCtrl = {
             const accesstoken = createAccessToken({ id: result.insertedId });
             const refreshtoken = createRefreshToken({ id: result.insertedId });
 
-            // Set refresh token as a cookie
             res.cookie('refreshtoken', refreshtoken, {
                 httpOnly: true,
-                path: '/refreshtoken',
-     
+                secure: process.env.NODE_ENV === 'production', // Enable HTTPS-only in production
+                sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
+                path: '/',
             });
+            
+            console.log(res)
 
             return res.status(201).json({ message: 'User registered successfully', accesstoken, refreshtoken });
         } catch (error) {
@@ -73,6 +78,7 @@ const userCtrl = {
     },
     refreshtoken: async (req, res) => {
         try {
+            console.log('hwllo')
             const rf_token = req.cookies.refreshtoken;
             if (!rf_token) {
                 return res.status(400).json({ message: 'Please log in or register' });
@@ -97,9 +103,10 @@ const userCtrl = {
         try {
             // Clear the refresh token cookie
             res.clearCookie('refreshtoken', {
-                path: '/refreshtoken',
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
+                path: '/',
+                httpOnly:true,
+                secure: process.env.NODE_ENV === 'production', // Enable Secure only in production
+    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
             });
 
             return res.status(200).json({ message: 'Logged out successfully' });
@@ -123,7 +130,7 @@ const userCtrl = {
             const user=await db.collection("users").findOne({_id:ObjectId.createFromHexString(userId)});
             return res.json(user);
         }catch(err){
-
+            console.log(err)
         }
     },
 

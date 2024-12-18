@@ -10,11 +10,14 @@ const cookieParser=require('cookie-parser');
 const connectMongo = require('./db/dbConnection');
 
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Your frontend URL
+    credentials:true,  // Allow cookies to be sent with requests
+}));
 app.use(express.json());
 app.use(cookieParser());
 const db= connectMongo();
-if (db) console.log("connected to db1");
+if (db) console.log("connected to db1");    
 
 
 

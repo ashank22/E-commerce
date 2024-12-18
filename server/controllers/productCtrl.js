@@ -44,7 +44,7 @@ class APIfeatures{
     }
     async execute(){
         let result=this.collection.find(this.query);
-      
+                   
         if (this.sort) {
             const sortCriteria = {};
             this.sort.split(' ').forEach(field => {

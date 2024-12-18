@@ -13,7 +13,7 @@ const authAdmin=async(req,res,next)=>{
                 return res.status(400).json({ message: "Invalid User ID format." });
             }
             const user=await db.collection("users").findOne({_id:ObjectId.createFromHexString(userId)});
-        if(user.role === '0') return res.status(400).json({msg:"Admin Resources Access Denied"}) 
+        if(user.role === false) return res.status(400).json({msg:"Admin Resources Access Denied"}) 
         next();
     }catch(error){
         return res.status(500).json({msg:error.message })

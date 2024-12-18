@@ -1,20 +1,25 @@
 import React,{useState} from 'react';
 import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 const initialState={
     username:"",
-    password:""
+    password:"",
+  
 }
 const Login = () => {
     const [userData,setUserData]=useState(initialState);
-    const handleChange=(e)=>{
    
-        setUserData(prev=>{
+    
+    const handleChange = (e) => {
+
+        setUserData((prev) => {
             return {
                 ...prev,
-                [e.target.name]:e.target.value
-            }
-        })
-    }
+                [e.target.name]: e.target.value,
+              };
+          });
+         
+    };
     
     const handleSubmit=async(e)=>{
         e.preventDefault();
@@ -22,8 +27,10 @@ const Login = () => {
         setUserData(initialState);
         console.log(userData);
         try{
-            const res=await axios.post('http://localhost:8000/login',body);
-            console.log(res, typeof res);
+            const res=await axios.post('http://localhost:5000/user/login',body,{withCredentials:true});
+            console.log(res)
+            localStorage.setItem('firstLogin',true);
+            window.location.href='/'
 
         }catch(error){
             console.log('error logging');   
@@ -34,15 +41,17 @@ const Login = () => {
 
 
   return (
-    <div className='flex justify-center '>
-    <div className='w-1/4' >
-        <h1 className='text-center'>Login</h1>
+    <div className='flex justify-center items-center grow bg-black text-white '>
+    <div className='w-1/5 h-auto bg-white  p-4 m-2' >
+        <h1 className='text-black text-center '>LOGIN</h1>
         <br />
       <form onSubmit={handleSubmit}>
-        <div className='flex flex-col'>
-            <input type="text" value={userData.username} placeholder='username' name='username' onChange={handleChange}/>
-            <input type="password" value={userData.password} placeholder='password' name='password' onChange={handleChange}/>
-            <input type="submit" className='bg-blue-400'/>
+        <div className='flex flex-col gap-1'>
+            <input className='h-10 text-black focus:outline-none  border-b-black border-b-2' type="text" value={userData.username} placeholder='username' name='username' onChange={handleChange}/>
+            <input className='h-10 text-black focus:outline-none  border-b-black border-b-2' type="password" value={userData.password} placeholder='password' name='password' onChange={handleChange}/>
+          
+            <br/>
+            <input type="submit" className='h-9 bg-orange-600   '/>
         </div>
       </form>
     </div>
@@ -50,4 +59,4 @@ const Login = () => {
   )
 }
 
-export default SignIn
+export default Login
