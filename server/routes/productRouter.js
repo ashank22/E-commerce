@@ -2,14 +2,15 @@ const express=require("express");
 const router=express.Router();
 
 const authAdmin = require("../middleware/authAdmin");
-const {getProducts, createProducts, deleteProducts, updateProducts}=require('../controllers/productCtrl')
+const {getProducts, createProducts, deleteProducts, updateProducts}=require('../controllers/productCtrl');
+const auth = require("../middleware/auth");
 router.route('/products')
 .get(getProducts)
-.post(authAdmin,authAdmin,createProducts)
+.post(auth,authAdmin,createProducts)
 
 router.route('/products/:id')
-.delete(authAdmin,authAdmin,deleteProducts)
-.put(authAdmin,authAdmin,updateProducts)
+.delete(auth,authAdmin,deleteProducts)
+.put(auth,authAdmin,updateProducts)
 
 
 
