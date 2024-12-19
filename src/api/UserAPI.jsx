@@ -4,7 +4,18 @@ import React, { useEffect, useState } from 'react'
 const UserAPI = (token) => {
     const [isLogged,setIsLogged]=useState(false);
     const [isAdmin,setIsAdmin]=useState(false);
-    console.log(token);
+    const [cart,setCart]=useState([]);
+    const addCart = (product) => {
+        if (!isLogged) return alert("Please log in first.");
+        
+        const check = cart.every(item => item._id !== product._id    );
+
+        if (check) {
+            setCart([...cart, { ...product, quantity: 1 }]);
+        } else {
+            alert("This product has already been added to the cart.");
+        }
+    };
     useEffect(()=>{
         
         if(token){
@@ -25,7 +36,9 @@ const UserAPI = (token) => {
   return (
    {
       isLogged:[isLogged,setIsLogged],
-      isAdmin:[isAdmin,setIsAdmin]
+      isAdmin:[isAdmin,setIsAdmin],
+      addCart: addCart,
+      cart:[cart,setCart]
 }
   )
 }

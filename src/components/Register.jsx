@@ -24,7 +24,7 @@ const Register = () => {
     console.log(userData);
     try {
       const res = await axios.post("http://localhost:5000/user/register", body);
-      console.log(res, typeof res);
+      console.log(res);
       localStorage.setItem('firstRegister',true);
       window.location.href="/"
     } catch (error) {

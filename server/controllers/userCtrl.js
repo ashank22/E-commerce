@@ -2,10 +2,18 @@ const connectMongo = require('../db/dbConnection');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
+var db=null;
+const connect=async()=>{
+    if (db!==null) return db;
+    const fetch=await connectMongo();
+    return fetch;
+}
+
 const userCtrl = {
     login: async (req, res) => {
         try {
-            const db = await connectMongo();
+            db=await connect()
+            console.log(db)
             const { username, password } = req.body;
 
             // Check if user exists
@@ -41,7 +49,7 @@ const userCtrl = {
     },
     register: async (req, res) => {
         try {
-            const db = await connectMongo();
+            db=await connect()
             if (db) console.log('connected')
             const { username, password,role } = req.body;
 
@@ -117,7 +125,7 @@ const userCtrl = {
     },
     getUser: async(req,res)=>{
         try{
-            const db=await connectMongo();
+            db=await connect();
             const userId = req.user?.id;
 
             if (!userId) {
@@ -133,17 +141,18 @@ const userCtrl = {
             console.log(err)
         }
     },
+   
 
 };
 
 // Generate Access Token
 const createAccessToken = (payload) => {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
 };
 
 // Generate Refresh Token
 const createRefreshToken = (payload) => {
-    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '2m' });
 };
 
 module.exports = userCtrl;

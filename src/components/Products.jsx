@@ -5,11 +5,15 @@ import { GlobalState } from '../GlobalState';
 export const Products = () => {
   const state=useContext(GlobalState);
   const [products]=state.productAPI.products
+  const [admin]=state.userAPI.isAdmin
+  const addCart=state.userAPI.addCart
+  const [token]=state.token
+  console.log(token)
   return (
     <div className='grow flex flex-wrap p-2 gap-2 bg-black'> 
    { products.map((e)=>{
       return(
-<Card src={e.img} name={e.name} price={e.price} id={e._id} key={e._id}/>
+<Card product={e} key={e._id} admin={admin} cart={addCart} token={token}/>
       );
     })
     }

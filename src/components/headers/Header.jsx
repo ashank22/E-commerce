@@ -4,6 +4,7 @@ import { BiSolidShoppingBagAlt } from "react-icons/bi";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { GlobalState } from '../../GlobalState';
+import { BiCart } from 'react-icons/bi';
 const Header = () => {
   const [productName,setProductName]=useState('');
   const state=useContext(GlobalState)
@@ -20,8 +21,8 @@ const Header = () => {
   const AdminRouter=()=>{
     return (
       <>
-      <li><Link to='/create_product'>create product</Link></li>
-      <li><Link to='/category'>category</Link></li>
+      <Link to='/createProduct'>create product</Link>
+      <Link to='/category'>category</Link>
       
       </>
     )
@@ -29,7 +30,8 @@ const Header = () => {
   const LoggedRouter=()=>{
     return (
       <>
-      <li><Link to='/' className='' onClick={logoutUser}>Logout</Link></li>
+      <Link to='/' className='' onClick={logoutUser}>Logout</Link>
+      <Link to='/cart' ><BiCart className='size-6'/></Link>
 
       </>
     )

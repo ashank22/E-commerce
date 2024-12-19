@@ -95,7 +95,8 @@ const productCtrl={
     updateProducts : async(req,res)=>{
         try {
             const db= await connectMongo();
-            const results= await db.collection("products").updateOne({_id:ObjectId.createFromHexString(req.params.id)},{$set: {name:req.body.name}});
+            console.log(req.body)
+            const results= await db.collection("products").updateOne({_id:ObjectId.createFromHexString(req.params.id)},{$set: {img:req.body.img,name:req.body.name,price:req.body.price}});
             res.json(results);
         } catch (error) {
             res.json({msg:"cannot delete products"})

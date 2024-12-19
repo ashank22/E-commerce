@@ -6,6 +6,8 @@ export const GlobalState=createContext();
 export const DataProvider=({children})=>{
 
     const [token,setToken]=useState(false);
+
+    
     const refreshToken=async()=>{
         try {
             const res=await axios.post('http://localhost:5000/user/refreshtoken',{},{withCredentials:true});
