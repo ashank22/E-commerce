@@ -10,8 +10,8 @@ export const Products = () => {
   const [token]=state.token
   console.log(token)
   return (
-    <div className='grow flex flex-wrap p-2 gap-2 bg-black'> 
-   { products.map((e)=>{
+    <div className='py-20 justify-center grow flex flex-wrap p-2 gap-2 bg-[#E5E5E5]'> 
+   {products.length>0 && products.map((e)=>{
       return(
 <Card product={e} key={e._id} admin={admin} cart={addCart} token={token}/>
       );

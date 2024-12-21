@@ -1,67 +1,148 @@
-import React, { useContext, useEffect } from 'react'
-import { useState } from 'react';
-import { BiSolidShoppingBagAlt } from "react-icons/bi";
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { GlobalState } from '../../GlobalState';
-import { BiCart } from 'react-icons/bi';
-const Header = () => {
-  const [productName,setProductName]=useState('');
-  const state=useContext(GlobalState)
-  const [isLogged,setIsLogged]=state.userAPI.isLogged;
-  const [isAdmin,setIsAdmin]=state.userAPI.isAdmin;
+import React, { useContext, useState } from "react";
+import { BiSolidShoppingBagAlt, BiCart } from "react-icons/bi";
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { MdClose } from "react-icons/md";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { GlobalState } from "../../GlobalState";
 
-  const logoutUser=async()=>{
-    await axios.get('http://localhost:5000/user/logout');
+const Header = () => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const state = useContext(GlobalState);
+  const [isLogged, setIsLogged] = state.userAPI.isLogged;
+  const [isAdmin, setIsAdmin] = state.userAPI.isAdmin;
+  const [query, setQuery] = state.query;
+
+  const logoutUser = async () => {
+    await axios.get("http://localhost:5000/user/logout");
     localStorage.clear();
     setIsAdmin(false);
     setIsLogged(false);
-    window.location.href='/'
-  }
-  const AdminRouter=()=>{
-    return (
-      <>
-      <Link to='/createProduct'>create product</Link>
-      <Link to='/category'>category</Link>
-      
-      </>
-    )
-  }
-  const LoggedRouter=()=>{
-    return (
-      <>
-      <Link to='/' className='' onClick={logoutUser}>Logout</Link>
-      <Link to='/cart' ><BiCart className='size-6'/></Link>
+    window.location.href = "/";
+  };
 
-      </>
-    )
-  }
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
+  const handleClickSearch = () => {
+    window.localStorage.setItem("query", query);
+    window.location.href = "/";
+  };
 
-
-  const handleFormChange=(e)=>{
-    setProductName(e.target.value);    
-  }
-  const handleClickSearch=async()=>{
-    
-  }
   return (
-    <div className='p-2 flex flex-row justify-around bg-black'>
-      <Link to="/"><BiSolidShoppingBagAlt className='text-6xl text-orange-600'/></Link>
-      <div className="my-2 flex flex-row w-2/6 gap-2 ">
-        <input className="grow rounded-sm "type="text" value={productName} onChange={handleFormChange}/>
-        <button onClick={handleClickSearch} className="text-white bg-orange-600 rounded-sm p-2">search</button>
-      </div>
-        <div className='flex flex-row gap-2 my-3 text-white'> 
-          {isAdmin && AdminRouter()}
-          {
-            isLogged ? LoggedRouter():<div><button className="text-white px-2"><Link to="/login">login</Link></button>
-            <button className="text-white bg-orange-600 rounded-sm px-2"><Link to="/register">SignUp</Link></button></div>
-          }
-        </div>
-    
-    </div>
-  )
-}
+    <div className="bg-[#E5E5E5] shadow-md">
+      <div className="p-2 flex justify-between items-center px-5">
+        {/* Logo */}
+        <Link to="/" onClick={() => window.localStorage.setItem("query", "")}>
+          <BiSolidShoppingBagAlt className="text-6xl text-black" />
+        </Link>
 
-export default Header
+        {/* Search Bar */}
+        <div className="hidden md:flex md:self-stretch w-1/3 m-2 ">
+      
+
+          <input
+            className="grow  rounded-full rounded-r-none outline-none text-sm px-4 "
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search products..."
+            />
+          <button
+            onClick={handleClickSearch}
+            className="text-white bg-black rounded-full rounded-l-none px-4"
+            >
+            Search
+          </button>
+          
+        </div>
+
+        {/* Menu / Account Options */}
+        <div className="relative">
+          <button
+            className="text-black text-3xl md:hidden"
+            onClick={toggleDropdown}
+          >
+            {dropdownOpen ? <MdClose /> : <HiOutlineMenuAlt3 />}
+          </button>
+
+          {/* Dropdown Menu */}
+          <div
+            className={`absolute top-full right-0 bg-[#E5E5E5] w-48 shadow-md rounded-lg transition-transform ${
+              dropdownOpen ? "block" : "hidden"
+            } md:flex md:items-center md:space-x-4 md:relative md:w-auto md:shadow-none md:top-0`}
+          >
+            {isAdmin && (
+  
+
+              <div className="flex flex-col my-2 space-y-2 md:flex-row md:space-y-0 md:space-x-2 ">
+                <Link
+                  to="/createProduct"
+                  className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition duration-300"
+                  >
+                  Create Product
+                </Link>
+                <Link
+                  to="/category"
+                  className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition duration-300"
+                  >
+                  Category
+                </Link>
+              </div>
+            
+            )}
+            {isLogged ? (
+              <div className="flex flex-col space-y-2 my-2 md:flex-row md:space-y-0 md:space-x-2">
+                <button
+                  className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition duration-300"
+                  onClick={logoutUser}
+                  >
+                  Logout
+                </button>
+                <Link
+                  to="/cart"
+                  className="bg-black text-white p-3 rounded-full hover:bg-gray-800 transition duration-300"
+                  >
+                  <BiCart className="text-white text-xl" />
+                </Link>
+              </div>
+            ) : (
+              <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-4">
+                <Link
+                  to="/login"
+                  className="text-gray-800 px-4 py-2 rounded-full hover:bg-gray-200 transition duration-300"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition duration-300"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Search Bar */}
+      <div className="flex md:hidden my-2 px-5 justify-center h-8 ">
+        <input
+          className=" rounded-full rounded-r-none outline-none text-sm px-4"
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search products..."
+        />
+        <button
+          onClick={handleClickSearch}
+          className="text-white bg-black rounded-full rounded-l-none px-4"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Header;

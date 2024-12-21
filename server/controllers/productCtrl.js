@@ -14,10 +14,11 @@ class APIfeatures{
         excludedFields.forEach(el=> delete(queryObj[el]))
 
         let queryStr=JSON.stringify(queryObj);
-        queryStr= queryStr.replace(/\b(gte|gt|lt|lte|regex)\b/g,match=>'$'+match)
+        queryStr= queryStr.replace(/\b(gte|gt|lt|lte|regex|options)\b/g,match=>'$'+match)
 
     
         this.query=(JSON.parse(queryStr));
+        console.log(queryStr);
     
         return this;
 
@@ -34,7 +35,7 @@ class APIfeatures{
     pagination(){
         const page = this.queryString.page * 1 || 1;
 
-        const limit =  this.queryString.limit * 1 || 9;
+        const limit =  this.queryString.limit * 1 || 19;
 
         const skip = (page-1) * limit;
 
@@ -44,7 +45,7 @@ class APIfeatures{
     }
     async execute(){
         let result=this.collection.find(this.query);
-                   
+        
         if (this.sort) {
             const sortCriteria = {};
             this.sort.split(' ').forEach(field => {

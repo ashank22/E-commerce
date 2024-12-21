@@ -1,46 +1,75 @@
-import React, { useContext, useState } from 'react'
-import { GlobalState } from '../GlobalState';
-import axios from 'axios';
-
+import React, { useContext, useState } from "react";
+import { GlobalState } from "../GlobalState";
+import axios from "axios";
 
 const CreateProduct = () => {
-  const state=useContext(GlobalState);
-  const [token]=state.token
-  const [newProduct,setnewProduct]=useState({});
-  const handleChange=(e)=>{
-    setnewProduct({...newProduct,[e.target.name]:e.target.value})
-    console.log(newProduct);
-    
-  }
-  const handleSubmit=async(e)=>{
-    e.preventDefault();
-    console.log(newProduct)
-    const res=await axios.post('http://localhost:5000/api/products',newProduct,{
-      headers:{
-        Authorization:token
-      }
-    });
-    console.log(res)
-    alert('product added');
-    window.location.href='/'
-  }
-  return (
-    <div className=' grow ' >
-      <form className='items-start m-2 flex flex-col' onChange={handleChange} onSubmit={handleSubmit}>
-
-      <input id="img" name="img" type="text" className='border-2' />
-      <label for="img">image url</label>
-      <input id='name' name='name' type="text" className='border-2'/>
-      <label for="name">name</label>
-      <input id='price' name='price' type="number" className='border-2' />
-      <label for="price"  >price</label>
-      <input type="submit" />
-
-
-      </form>
+  const state = useContext(GlobalState);
+  const [token] = state.token;
+  const [newProduct, setnewProduct] = useState({});
   
-    </div>
-  )
-}
+  const handleChange = (e) => {
+    setnewProduct({ ...newProduct, [e.target.name]: e.target.value });
+    console.log(newProduct);
+  };
 
-export default CreateProduct
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(newProduct);
+    const res = await axios.post("http://localhost:5000/api/products", newProduct, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    console.log(res);
+    alert("Product added");
+    window.location.href = "/";
+  };
+
+  return (
+    <div className="flex justify-center items-center h-screen bg-black">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-semibold text-center mb-4">Add New Product</h2>
+        <form className="flex flex-col space-y-4" onChange={handleChange} onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="img" className="block text-gray-700">Image URL</label>
+            <input
+              id="img"
+              name="img"
+              type="text"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+              placeholder="Enter image URL"
+            />
+          </div>
+          <div>
+            <label htmlFor="name" className="block text-gray-700">Name</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+              placeholder="Enter product name"
+            />
+          </div>
+          <div>
+            <label htmlFor="price" className="block text-gray-700">Price</label>
+            <input
+              id="price"
+              name="price"
+              type="number"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+              placeholder="Enter product price"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition duration-200"
+          >
+            Add Product
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default CreateProduct;

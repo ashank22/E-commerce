@@ -6,7 +6,10 @@ export const GlobalState=createContext();
 export const DataProvider=({children})=>{
 
     const [token,setToken]=useState(false);
-
+    const [query, setQuery] = useState(() => {
+        // Retrieve the query from localStorage on component mount
+        return localStorage.getItem("query") || ""; 
+    });
     
     const refreshToken=async()=>{
         try {
@@ -21,12 +24,13 @@ export const DataProvider=({children})=>{
     useEffect(()=>{
         const firstLogin=localStorage.getItem('firstLogin');
         console.log(firstLogin)
-        if (firstLogin) refreshToken()
+        if (firstLogin==='true') refreshToken()
     },[])
     const state={
         token:[token,setToken],
-        productAPI:ProductAPI(),
-        userAPI:UserAPI(token)
+        productAPI:ProductAPI(query),
+        userAPI:UserAPI(token),
+        query:[query,setQuery]
     }
     
     return (

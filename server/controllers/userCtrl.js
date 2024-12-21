@@ -147,12 +147,12 @@ const userCtrl = {
 
 // Generate Access Token
 const createAccessToken = (payload) => {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' });
 };
 
 // Generate Refresh Token
 const createRefreshToken = (payload) => {
-    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '2m' });
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '20m' });
 };
 
 module.exports = userCtrl;
