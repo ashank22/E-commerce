@@ -53,8 +53,9 @@ npm install
 Create a `.env` file in the backend directory with the following variables:
 ```env
 PORT=5000
-MONGODB_URI=your_mongodb_uri
-ACESS_TOKEN_SECRET=your_access_token_secret
+MONGODB_NAME=mongodb_username
+MONGODB_PASS=mongodb_password
+ACCESS_TOKEN_SECRET=your_access_token_secret
 REFRESH_TOKEN_SECRET=your_refresh_token_secret
 ```
 
