@@ -19,7 +19,7 @@ A full-featured e-commerce platform with user and admin functionalities, secure 
 
 ### Frontend
 - React.js
-- Redux for state management
+- Context API for state management
 - Tailwind CSS for styling
 - Axios for API requests
 
