@@ -2,6 +2,8 @@
 
 A full-featured e-commerce platform with user and admin functionalities, secure authentication, and shopping cart features.
 
+Demonstration:
+https://github.com/user-attachments/assets/8263d27b-0b9c-46c0-8cea-800344e0d2c0
 ## Features
 
 ### User Features
@@ -114,5 +116,9 @@ npm start
 └── package.json
 └── README.md
 ```
+
+
+
+
 
 
