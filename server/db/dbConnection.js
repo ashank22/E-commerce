@@ -1,8 +1,8 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 // Replace with your MongoDB URI
-const uri =`mongodb+srv://${process.env.MONGO_DB_NAME}:${process.env.MONGO_DB_PASS}@data.2leny.mongodb.net/?retryWrites=true&w=majority&appName=data`;
-
+// const uri =`mongodb+srv://${process.env.MONGO_DB_NAME}:${process.env.MONGO_DB_PASS}@data.2leny.mongodb.net/?retryWrites=true&w=majority&appName=data`;
+const uri = 'mongodb://mongo:27017/app';
 let db = null;
 
 async function connectMongo() {
