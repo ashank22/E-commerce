@@ -11,7 +11,7 @@ const connectMongo = require('./db/dbConnection');
 
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Your frontend URL
+    origin: 'http://localhost:3000', // Your frontend URL
     credentials:true,  // Allow cookies to be sent with requests
 }));
 app.use(express.json());

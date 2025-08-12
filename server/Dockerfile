@@ -1,0 +1,25 @@
+# server/Dockerfile
+
+# Use an official Node.js runtime as a parent image
+FROM node:18-alpine
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# (Optional but good practice) Ensure no old node_modules exist
+RUN rm -rf node_modules
+
+# Install dependencies cleanly inside the container
+RUN npm install
+
+# Copy the rest of the application code to the working directory
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE 5000
+
+# Command to run the app
+CMD ["npm", "run", "dev"]
