@@ -1,3 +1,5 @@
+# server/Dockerfile
+
 # Use an official Node.js runtime as a parent image
 FROM node:18-alpine
 
@@ -7,7 +9,10 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Install dependencies
+# (Optional but good practice) Ensure no old node_modules exist
+RUN rm -rf node_modules
+
+# Install dependencies cleanly inside the container
 RUN npm install
 
 # Copy the rest of the application code to the working directory
