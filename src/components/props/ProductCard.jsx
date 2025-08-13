@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+const VITE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 export const Card = ({ product, admin, cart, token }) => {
   const navigate = useNavigate();
   const [updateProduct, setUpdateProduct] = useState(product);
@@ -10,7 +10,7 @@ export const Card = ({ product, admin, cart, token }) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/products/${_id}`, {
+      await axios.delete(`${VITE_API_URL}/api/products/${_id}`, {
         headers: {
           Authorization: token,
         },
@@ -35,7 +35,7 @@ export const Card = ({ product, admin, cart, token }) => {
       e.preventDefault();
       try {
         const res = await axios.put(
-          `http://localhost:5000/api/products/${_id}`,
+          `${VITE_API_URL}/api/products/${_id}`,
           updateProduct,
           {
             headers: {

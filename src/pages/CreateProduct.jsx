@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { GlobalState } from "../GlobalState";
 import axios from "axios";
-
+const VITE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const CreateProduct = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
@@ -15,7 +15,7 @@ const CreateProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(newProduct);
-    const res = await axios.post("http://localhost:5000/api/products", newProduct, {
+    const res = await axios.post(`${VITE_API_URL}/api/products`, newProduct, {
       headers: {
         Authorization: token,
       },

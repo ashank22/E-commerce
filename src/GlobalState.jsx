@@ -4,7 +4,7 @@ import axios from "axios";
 import UserAPI from "./api/UserAPI";
 export const GlobalState=createContext();
 export const DataProvider=({children})=>{
-
+const VITE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
     const [token,setToken]=useState(false);
     const [query, setQuery] = useState(() => {
         // Retrieve the query from localStorage on component mount
@@ -13,7 +13,7 @@ export const DataProvider=({children})=>{
     
     const refreshToken=async()=>{
         try {
-            const res=await axios.post('http://localhost:5000/user/refreshtoken',{},{withCredentials:true});
+            const res=await axios.post(`${VITE_API_URL}/user/refreshtoken`,{},{withCredentials:true});
             console.log(res)
             setToken(res.data.accesstoken)
             

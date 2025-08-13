@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+const VITE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 // It's good practice to define initialState outside the component
 // so it's not recreated on every render.
@@ -45,7 +46,7 @@ const Register = () => {
 
     try {
       // 3. Send the corrected data to the server.
-      const res = await axios.post("http://localhost:5000/user/register", submissionData);
+      const res = await axios.post(`${VITE_API_URL}/user/register`, submissionData);
       console.log(res);
 
       // 4. On success, perform post-submission actions.

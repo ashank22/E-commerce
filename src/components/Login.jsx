@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+const VITE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const initialState = {
   username: "",
@@ -33,7 +33,7 @@ const Login = () => {
     setError(null); // Reset error on submit
 
     try {
-      const res = await axios.post('http://localhost:5000/user/login', body, { withCredentials: true });
+      const res = await axios.post(`${VITE_API_URL}/user/login`, body, { withCredentials: true });
       console.log(res);
       localStorage.setItem('firstLogin', 'true'); // Ensure 'true' is a string
       window.location.href='/' // Redirect using Navigate instead of window.location.href

@@ -5,7 +5,7 @@ import { MdClose } from "react-icons/md";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { GlobalState } from "../../GlobalState";
-
+const VITE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const state = useContext(GlobalState);
@@ -14,7 +14,7 @@ const Header = () => {
   const [query, setQuery] = state.query;
 
   const logoutUser = async () => {
-    await axios.get("http://localhost:5000/user/logout");
+    await axios.get(`${VITE_API_URL}/user/logout`);
     localStorage.clear();
     setIsAdmin(false);
     setIsLogged(false);
