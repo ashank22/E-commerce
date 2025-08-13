@@ -5,7 +5,7 @@ import { MdClose } from "react-icons/md";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { GlobalState } from "../../GlobalState";
-const VITE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const VITE_API_URL = "https://e-commerce-backend-lt4r.onrender.com";
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const state = useContext(GlobalState);

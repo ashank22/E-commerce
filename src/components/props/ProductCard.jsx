@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-const VITE_API_URL = import.meta.env.VITE_API_URL;
+const VITE_API_URL = "https://e-commerce-backend-lt4r.onrender.com";
 console.log(VITE_API_URL)
 export const Card = ({ product, admin, cart, token }) => {
   const navigate = useNavigate();
