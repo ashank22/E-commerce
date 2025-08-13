@@ -35,10 +35,11 @@ const userCtrl = {
 
             // Set refresh token as a cookie
             res.cookie('refreshtoken', refreshtoken, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production', // Enable HTTPS-only in production
-                sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
-                path: '/',
+            httpOnly: true,
+            // Set secure and sameSite based on the environment
+            secure: process.env.NODE_ENV === 'production', 
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Use 'None' in production
+            path: '/',
             });
             
             console.log(req);
@@ -73,7 +74,7 @@ const userCtrl = {
             res.cookie('refreshtoken', refreshtoken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production', // Enable HTTPS-only in production
-                sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
+                sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
                 path: '/',
             });
             
@@ -111,12 +112,13 @@ const userCtrl = {
     logout: async (req, res) => {
         try {
             // Clear the refresh token cookie
-            res.clearCookie('refreshtoken', {
-                path: '/',
-                httpOnly:true,
-                secure: process.env.NODE_ENV === 'production', // Enable Secure only in production
-    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
-            });
+            res.cookie('refreshtoken', refreshtoken, {
+    httpOnly: true,
+    // Set secure and sameSite based on the environment
+    secure: process.env.NODE_ENV === 'production', 
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Use 'None' in production
+    path: '/',
+});
 
             return res.status(200).json({ message: 'Logged out successfully' });
         } catch (error) {
