@@ -8,11 +8,20 @@ const app = express();
 require('dotenv').config();
 const cookieParser=require('cookie-parser');
 const connectMongo = require('./db/dbConnection');
-
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",").map(origin => origin.trim())
+  : [];
 
 app.use(cors({
-    origin: ['https://e-commerce-ryk9.onrender.com','http://localhost:3000'], // Your frontend URL
-    credentials:true,  // Allow cookies to be sent with requests
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, origin);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
 }));
 app.use(express.json());
 app.use(cookieParser());
