@@ -126,12 +126,7 @@ const userCtrl = {
     }
 },
 
-            return res.status(200).json({ message: 'Logged out successfully' });
-        } catch (error) {
-            console.error('Error in logout:', error);
-            return res.status(500).json({ message: 'Server error', error: error.message });
-        }
-    },
+    
     getUser: async(req,res)=>{
         try{
             db=await connect();
