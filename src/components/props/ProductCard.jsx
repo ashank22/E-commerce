@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-const VITE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const VITE_API_URL = process.env.VITE_API_URL || 'http://localhost:5000';
 export const Card = ({ product, admin, cart, token }) => {
   const navigate = useNavigate();
   const [updateProduct, setUpdateProduct] = useState(product);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-const VITE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const VITE_API_URL = process.env.VITE_API_URL || 'http://localhost:5000';
 export const ProductAPI = (query) => {
     const [products,setProducts]=useState([]);
     console.log(query)
