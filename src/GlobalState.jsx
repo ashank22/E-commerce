@@ -4,7 +4,7 @@ import axios from "axios";
 import UserAPI from "./api/UserAPI";
 export const GlobalState=createContext();
 export const DataProvider=({children})=>{
-const VITE_API_URL = process.env.VITE_API_URL || 'http://localhost:5000';
+const VITE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
     const [token,setToken]=useState(false);
     const [query, setQuery] = useState(() => {
         // Retrieve the query from localStorage on component mount

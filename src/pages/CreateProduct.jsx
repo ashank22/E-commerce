@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { GlobalState } from "../GlobalState";
 import axios from "axios";
-const VITE_API_URL = process.env.VITE_API_URL || 'http://localhost:5000';
+const VITE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const CreateProduct = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
