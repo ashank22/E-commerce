@@ -11,7 +11,8 @@ const connectMongo = require('./db/dbConnection');
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(",").map(origin => origin.trim())
   : [];
-
+  console.log('yes')
+console.log(allowedOrigins)
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps or curl requests)
